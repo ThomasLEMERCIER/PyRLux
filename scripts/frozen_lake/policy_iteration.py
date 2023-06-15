@@ -16,7 +16,7 @@ from . import utils
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Frozen Lake Value Iteration")
+    parser = argparse.ArgumentParser(description="Frozen Lake Policy Iteration")
     parser.add_argument("-n", type=int, default=10, help="Number of runs to simulate")
     parser.add_argument("-s", type=int, default=8, help="Size of the gridworld")
     parser.add_argument(
