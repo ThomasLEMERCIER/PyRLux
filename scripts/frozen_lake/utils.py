@@ -71,7 +71,10 @@ def plot_value_function(values: np.ndarray, shape: tuple[int, int]) -> None:
     values[-1][-1] = values.max()
 
     _, ax = plt.subplots(figsize=(5, 5))
-    im = ax.imshow(values, cmap="YlOrRd", interpolation="none", norm="log")
+    if values.max() == 0:
+        im = ax.imshow(values, cmap="YlOrRd", interpolation="none")
+    else:
+        im = ax.imshow(values, cmap="YlOrRd", interpolation="none", norm="log")
 
     # Add gridlines
     ax.set_xticks(np.arange(-0.5, shape[1], 1), minor=True)
@@ -173,6 +176,7 @@ def extract_mdp(env: FrozenLakeEnv, gamma: float = 0.9) -> MDP:
 
     return mdp_model
 
+
 def evaluate_policy(n: int, env: FrozenLakeEnv, policy: np.ndarray) -> None:
     """
     Evaluate a policy by running n episodes
@@ -181,7 +185,7 @@ def evaluate_policy(n: int, env: FrozenLakeEnv, policy: np.ndarray) -> None:
         n (int): number of episodes
         env (FrozenLakeEnv): FrozenLakeEnv
         policy (np.ndarray): policy
-    
+
     Returns:
         None
     """
@@ -199,6 +203,7 @@ def evaluate_policy(n: int, env: FrozenLakeEnv, policy: np.ndarray) -> None:
     print(f"Win rate: {wins/n:.2%}")
     env.close()
 
+
 def show_run(slippery: bool, frozen_lake_map: list[str], policy: np.ndarray):
     """
     Show a run of the policy
@@ -212,7 +217,10 @@ def show_run(slippery: bool, frozen_lake_map: list[str], policy: np.ndarray):
         None
     """
     env: FrozenLakeEnv = gym.make(
-        "FrozenLake-v1", desc=frozen_lake_map, is_slippery=slippery, render_mode="human",
+        "FrozenLake-v1",
+        desc=frozen_lake_map,
+        is_slippery=slippery,
+        render_mode="human",
     )
 
     observation, _ = env.reset()

@@ -74,7 +74,6 @@ if __name__ == "__main__":
     )
 
     frozen_lake_map = generate_random_map(size=s, p=p)
-    print(f"Map: {frozen_lake_map}")
     env: FrozenLakeEnv = gym.make(
         "FrozenLake-v1", desc=frozen_lake_map, is_slippery=slippery
     )
