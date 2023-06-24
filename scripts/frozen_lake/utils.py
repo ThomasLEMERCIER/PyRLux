@@ -68,13 +68,11 @@ def plot_value_function(values: np.ndarray, shape: tuple[int, int]) -> None:
         None
     """
     values = values.reshape(shape)
-    values[-1][-1] = values.max()
+    min_val = values.min()
+    values += abs(min_val)
 
     _, ax = plt.subplots(figsize=(5, 5))
-    if values.max() == 0:
-        im = ax.imshow(values, cmap="YlOrRd", interpolation="none")
-    else:
-        im = ax.imshow(values, cmap="YlOrRd", interpolation="none", norm="log")
+    im = ax.imshow(values, cmap="YlOrRd", interpolation="none", norm="log")
 
     # Add gridlines
     ax.set_xticks(np.arange(-0.5, shape[1], 1), minor=True)
@@ -229,3 +227,31 @@ def show_run(slippery: bool, frozen_lake_map: list[str], policy: np.ndarray):
         action = policy[observation]
         observation, _, terminated, truncated, _ = env.step(action)
     env.close()
+
+
+def plot_exploration(exploration: np.ndarray, shape: tuple[int, int]) -> None:
+    """
+    Plot exploration as a grid
+
+    Args:
+        exploration (np.ndarray): number of times each state has been visited
+        shape (tuple): shape of the gridworld
+
+    Returns:
+        None
+    """
+    exploration = exploration.reshape(shape)
+
+    _, ax = plt.subplots(figsize=(5, 5))
+    im = ax.imshow(exploration, cmap="YlOrRd", interpolation="none", norm="log")
+
+    # Add gridlines
+    ax.set_xticks(np.arange(-0.5, shape[1], 1), minor=True)
+    ax.set_yticks(np.arange(-0.5, shape[0], 1), minor=True)
+    ax.grid(which="minor", color="w", linestyle="-", linewidth=1)
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    ax.figure.colorbar(im, ax=ax, orientation="horizontal")
+
+    ax.set_title("Exploration")

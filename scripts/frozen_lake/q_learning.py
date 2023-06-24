@@ -8,6 +8,7 @@ import gymnasium as gym
 from tqdm import tqdm
 from gymnasium.envs.toy_text.frozen_lake import generate_random_map, FrozenLakeEnv
 import matplotlib.pyplot as plt
+import numpy as np
 
 from pyrlux.algorithms.q_learning import QlearningAgent
 from pyrlux.algorithms.exploration_policy import (
@@ -107,6 +108,8 @@ if __name__ == "__main__":
         exploration_policy=exploration_policy,
     )
 
+    exploration = np.zeros(env.observation_space.n)
+
     pbar = tqdm(total=num_iters, desc="Training")
     while num_iters > 0:
         observation, _ = env.reset()
@@ -114,6 +117,8 @@ if __name__ == "__main__":
         while (num_iters > 0) and not (terminated or truncated):
             action = agent.act(observation)
             next_observation, reward, terminated, truncated, _ = env.step(action)
+
+            exploration[observation] += 1
 
             transition = Transition(
                 state=observation,
@@ -133,6 +138,7 @@ if __name__ == "__main__":
     policy = agent.get_policy()
 
     if show_results:
+        utils.plot_exploration(exploration, (s, s))
         utils.plot_policy(policy, (s, s))
         utils.plot_map(frozen_lake_map, (s, s))
         utils.plot_value_function(agent.get_value_function(), (s, s))
