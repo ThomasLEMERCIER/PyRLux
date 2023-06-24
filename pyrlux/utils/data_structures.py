@@ -68,3 +68,15 @@ class QLearningParams:
     num_states: int
     num_actions: int
     gamma: float = 0.9
+
+
+@dataclass(frozen=True)
+class SarsaParams:
+    """
+    Parameters for the SARSA algorithm.
+    """
+
+    alpha: float
+    num_states: int
+    num_actions: int
+    gamma: float = 0.9
