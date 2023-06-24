@@ -20,10 +20,7 @@ class QlearningAgent:
     ) -> None:
         """
         Args:
-            alpha (float): Learning rate.
-            num_states (int): Number of states.
-            num_actions (int): Number of actions.
-            gamma (float): Discount factor.
+            params (QLearningParams): Q-learning parameters.
             exploration_policy (ExplorationPolicy): Exploration policy.
         """
         self.params = params

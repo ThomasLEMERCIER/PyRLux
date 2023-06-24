@@ -69,10 +69,14 @@ def plot_value_function(values: np.ndarray, shape: tuple[int, int]) -> None:
     """
     values = values.reshape(shape)
     min_val = values.min()
+    max_val = values.max()
     values += abs(min_val)
 
     _, ax = plt.subplots(figsize=(5, 5))
-    im = ax.imshow(values, cmap="YlOrRd", interpolation="none", norm="log")
+    if max_val == 0:
+        im = ax.imshow(values, cmap="YlOrRd", interpolation="none")
+    else:
+        im = ax.imshow(values, cmap="YlOrRd", interpolation="none", norm="log")
 
     # Add gridlines
     ax.set_xticks(np.arange(-0.5, shape[1], 1), minor=True)

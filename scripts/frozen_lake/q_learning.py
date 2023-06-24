@@ -10,7 +10,7 @@ from gymnasium.envs.toy_text.frozen_lake import generate_random_map, FrozenLakeE
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pyrlux.algorithms.q_learning import QlearningAgent
+from pyrlux import QlearningAgent
 from pyrlux.algorithms.exploration_policy import (
     EpsilonGreedy,
     EpsilonGreedyDecay,
