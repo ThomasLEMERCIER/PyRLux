@@ -137,10 +137,12 @@ class UCB1(ExplorationPolicy):
         """
         total = np.sum(self.time_selected[state])
         if total == 0:
-            return random.choice(actions)
-        return actions[
-            np.argmax(
-                q_values[state, actions]
-                + np.sqrt(2 * np.log(total) / self.time_selected[state, actions])
-            )
-        ]
+            action = random.choice(actions)
+        else:
+            for action in actions:
+                if self.time_selected[state, action] == 0:
+                    self.time_selected[state, action] += 1
+                    return action
+            action = np.argmax(q_values[state, actions] + np.sqrt(2 * np.log(total) / self.time_selected[state, actions]))
+        self.time_selected[state, action] += 1
+        return action
