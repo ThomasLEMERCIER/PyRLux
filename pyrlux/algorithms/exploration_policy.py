@@ -143,6 +143,6 @@ class UCB1(ExplorationPolicy):
                 if self.time_selected[state, action] == 0:
                     self.time_selected[state, action] += 1
                     return action
-            action = np.argmax(q_values[state, actions] + np.sqrt(2 * np.log(total) / self.time_selected[state, actions]))
+            action = actions[np.argmax(q_values[state, actions] + np.sqrt(2 * np.log(total) / self.time_selected[state, actions]))]
         self.time_selected[state, action] += 1
         return action
